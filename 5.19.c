@@ -1,4 +1,5 @@
 #include <stdio.h>
+//显然只能是O(n*m)的复杂度
 #define INF 0x3f3f3f3f
 #define min(a,b) a<b?a:b
 #define max(a,b) a>b?a:b
