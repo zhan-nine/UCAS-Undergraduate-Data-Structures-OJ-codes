@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-//特别说明，评测机4.29数据很弱，不能保证您的代码正确性
+
 typedef struct node{
     char chdata;
     struct node *next,*succ;
@@ -15,7 +15,7 @@ void Strinsert(Node *str,char ch)
         return;
     }
     */
-    while(p!=NULL && p->succ!=NULL)
+    while(p->succ!=NULL)
     {
         p=p->succ;
     }
@@ -72,7 +72,7 @@ int KMP(Node *s,Node *t)
         }
         if(q->succ==NULL)
         {
-            if(q->chdata==p->chdata)return ans;//匹配成功。请注意，监测末尾字符是否相等很重要。
+            if(q->chdata==p->chdata)return ans;//匹配成功
             q=t->succ;
         }
     }
@@ -84,23 +84,66 @@ void init(Node *str)
     str->succ=NULL;
     str->chdata=0;
 }
+void delete(Node *str)
+{
+    Node *p=str->succ;
+    while(p!=NULL)
+    {
+        Node *q=p->succ;
+        free(p);
+        p=q;
+    }
+    free(str);
+}
+void Strprint(Node *str)
+{
+    Node *p=str;
+    while(p!=NULL && p->chdata==0)p=p->succ;
+    while(p!=NULL)
+    {
+        printf("%c",p->chdata);
+        p=p->succ;
+    }
+}
 int main() {
-    int n,m;
-    scanf("%d %d",&n,&m);
-    Node *s=(Node *)malloc(sizeof(Node)),*t=(Node *)malloc(sizeof(Node));
-    init(s); init(t);
+    Node *s=(Node *)malloc(sizeof(Node));
+    init(s);
     char ch;
-    for(int i=0;i<n;i++)
+    int len=0;
+    while((ch=getchar())!='\n')
     {
-        while((ch=getchar())=='\n');
         Strinsert(s,ch);
+        len++;
     }
-    for(int i=0;i<m;i++)
+    for(int i=len-1;i>0;i--)
     {
-        while((ch=getchar())=='\n');
-        Strinsert(t,ch);
+        for(int j=0;i+j<len;j++)
+        {
+            Node *t=(Node *)malloc(sizeof(Node));
+            init(t);
+            Node *p=s;
+            for(int k=0;k<=j;k++) p=p->succ;
+            Node *temp=p;
+            for(int k=0;k<i;k++)
+            {
+                Strinsert(t,p->chdata);
+                p=p->succ;
+            }
+            Node *q=(Node *)malloc(sizeof(Node));
+            init(q);
+            q->succ=temp->succ;
+            int kmp=KMP(q,t);
+            if(kmp!=-1)
+            {
+                Strprint(t);
+                //putchar(' ');
+                //Strprint(q);
+                printf(" %d\n",j);
+                return 0;
+            }
+            delete(t);
+        }
     }
-    int ans=KMP(s,t);
-    printf("%d\n",ans);
+    puts("-1");
     return 0;
 }
