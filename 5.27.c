@@ -164,8 +164,8 @@ void OLprint(CrossList *M,int m,int n)
 }
 int main() {
     CrossList *m1=(CrossList*)malloc(sizeof(CrossList)),*m2=(CrossList*)malloc(sizeof(CrossList));
-    int m,n,num1=0,num2=0,num3=0;
-    int t1=0,t2=0,t3=0;
+    int m,n,num1=0,num2=0;
+    int t1=0,t2=0;
     //init
     scanf("%d %d",&m,&n);
     CreateSMatrix_OL(m1,m,n);
