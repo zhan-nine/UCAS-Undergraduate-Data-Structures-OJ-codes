@@ -1,3 +1,4 @@
+//请注意，本文档仅供意会，实际使用时有bug
 #include <stdio.h>
 #include <stdlib.h>
 struct List{
