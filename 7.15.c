@@ -16,59 +16,74 @@ int main() {
         }
     }
     char s[105];
-    int ans[1005],temp,tempmin=0;
-    for(temp=0;temp<n;temp++)ans[temp]=temp;
     getchar();
-    while(scanf("%s",s))
+    while(scanf("%s",s)!=EOF)
     {
         
         if(strcmp(s,"IV")==0)
         {
-            int x;
+            int i,j,x;
             scanf("%d",&x);
-            ans[temp++]=x;
+            n++;
+            bool map2[1005][1005];
+            for(i=0;i<n;i++)
+            {
+                for(j=0;j<n;j++)
+                {
+                    if(i<x&&j<x)map2[i][j]=map[i][j];
+                    else if(i==x || j==x)map2[i][j]=0;
+                    else if(i<x&&j>x)map2[i][j]=map[i][j-1];
+                    else if(i>x&&j<x)map2[i][j]=map[i-1][j];
+                    else if(i>x&&j>x)map2[i][j]=map[i-1][j-1];
+                
+                }
+            }
+            for(i=0;i<n;i++)
+            {
+                for(j=0;j<n;j++)
+                {
+                    map[i][j]=map2[i][j];
+                }
+            }
         }
         else if(strcmp(s,"IA")==0)
         {
-            int x,y,i,j;
+            int x,y;
             scanf("%d%d",&x,&y);
-            for(i=tempmin;i<temp;i++)if(ans[i]==x)break;
-            for(j=tempmin;j<temp;j++)if(ans[j]==y)break;
-            map[j][i]=map[i][j]=1;
+            map[x][y]=map[y][x]=1;
         }
         else if(strcmp(s,"DV")==0)
         {
-            int i,x;
+            int i,j,x;
             scanf("%d",&x);
-            for(i=tempmin;i<temp;i++)
+            for(i=0;i<n;i++)
             {
-                if(ans[i]==x)break;
+                for(j=0;j<n;j++)
+                {
+                    if(i<x&&j<x)map[i][j]=map[i][j];
+                    else if(i>=x&&j<x)map[i][j]=map[i+1][j];
+                    else if(i<x&&j>=x)map[i][j]=map[i][j+1];
+                    else if(i>=x&&j>=x)map[i][j]=map[i+1][j+1];
+                }
             }
-            tempmin++;
-            for(int j=tempmin;j<=i;j++)
-            {
-                ans[j]=ans[j-1];
-            }
+            n--;
         }
         else if(strcmp(s,"DA")==0)
         {
-            int x,y,i,j;
+            int x,y;
             scanf("%d%d",&x,&y);
-            for(i=tempmin;i<temp;i++)if(ans[i]==x)break;
-            for(j=tempmin;j<temp;j++)if(ans[j]==y)break;
-            map[i][j]=map[j][i]=0;
+            map[x][y]=map[y][x]=0;
         }
         
         
         getchar();
     }
-    for(int i=tempmin;i<temp;i++)
+    for(int i=0;i<n;i++)
     {
-        bool flag=0;
-        for(int j=tempmin;j<temp;j++)
+        for(int j=0;j<n;j++)
         {
-            if(flag)putchar(' ');
-            printf("%d",map[ans[i]][ans[j]]);
+            if(j>=1 && j<=n-1)putchar(' ');
+            printf("%d",map[i][j]);
         }
         putchar('\n');
     }
