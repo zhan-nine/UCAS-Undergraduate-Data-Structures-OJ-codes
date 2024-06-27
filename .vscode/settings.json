@@ -3,6 +3,7 @@
         "*.embeddedhtml": "html",
         "stdio.h": "c",
         "typeinfo": "c",
-        "stdbool.h": "c"
+        "stdbool.h": "c",
+        "string.h": "c"
     }
 }
